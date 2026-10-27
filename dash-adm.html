@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Dashboard Dosen - SIPENA Universitas Muhammadiyah Bogor Raya</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "#f8f9ff",
+                        "on-surface": "#0b1c30",
+                        "on-surface-variant": "#43474f",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container": "#e5eeff",
+                        "surface-container-high": "#dce9ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "primary": "#001f41",
+                        "primary-container": "#0f3460",
+                        "primary-fixed": "#d5e3ff",
+                        "primary-fixed-dim": "#a9c8fc",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#7f9dd0",
+                        "secondary": "#0051d5",
+                        "secondary-container": "#316bf3",
+                        "on-secondary-container": "#fefcff",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#002136",
+                        "tertiary-container": "#003757",
+                        "error-container": "#ffdad6"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "headline": ["Plus Jakarta Sans", "sans-serif"]
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+
+<body class="bg-surface font-sans text-on-surface">
+
+    <!-- Sidebar Dosen -->
+    <aside id="sidebar"
+        class="fixed left-0 top-0 h-full w-72 sm:w-80 bg-primary text-on-primary z-50 flex flex-col justify-between shadow-2xl -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="flex flex-col h-full">
+            <div
+                class="h-16 px-4 flex items-center justify-between bg-primary-container/40 border-b border-primary-container/50">
+                <div class="flex items-center gap-3">
+                    <img alt="Logo UM Bogor Raya" class="h-8 w-auto object-contain"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8k8aD_E5mzd1nrcNFQDv8-YrZmOriobV_RSES9K9cuv08L0x58xDL5KMzvX-d3hmnjVpR0ZT4ERAk3qZmNyUktI4kJUbxONn5SuMiMOUSavrvWh7JEOjAIQLCelBwpySJ0W1qWQ2wswil8cqGRDjYYQ0brp0sCrIld3GcXJ3iC-iJaftz9IDo1keh95YiuwqvVtmzQ0G-fpGUjDibsjS-tfR9Tkiak9iy6Nh0rpdVo3FVg4q1CqvrLM0N3io7c9B3R9o" />
+                    <div class="flex flex-col min-w-0">
+                        <span class="text-base text-on-primary font-bold tracking-tight font-headline">SIPENA</span>
+                        <span class="text-[10px] text-primary-fixed-dim tracking-wider uppercase truncate">UM Bogor
+                            Raya</span>
+                    </div>
+                </div>
+                <button id="sidebarCloseBtn" type="button" aria-label="Tutup Menu"
+                    class="w-9 h-9 rounded-lg flex items-center justify-center text-primary-fixed-dim hover:text-on-primary hover:bg-primary-container/80 transition-colors">
+                    <span class="material-symbols-outlined text-xl">close</span>
+                </button>
+            </div>
+
+            <div class="px-4 pt-4 pb-1">
+                <span class="text-[11px] uppercase tracking-wider text-primary-fixed-dim/80 font-semibold">Menu
+                    Utama</span>
+            </div>
+            <nav class="flex-1 px-2 space-y-1 overflow-y-auto">
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-secondary-container text-on-secondary-container font-semibold shadow-sm text-sm"
+                    href="dash-adm.html">
+                    <span class="material-symbols-outlined text-xl">dashboard</span>
+                    <span class="truncate">Dashboard</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors text-sm"
+                    href="upload.html?type=rps&role=dosen">
+                    <span class="material-symbols-outlined text-xl">description</span>
+                    <span class="truncate">RPS</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors text-sm"
+                    href="upload.html?type=modul&role=dosen">
+                    <span class="material-symbols-outlined text-xl">menu_book</span>
+                    <span class="truncate">Modul</span>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors text-sm"
+                    href="upload.html?type=kontrak&role=dosen">
+                    <span class="material-symbols-outlined text-xl">assignment_turned_in</span>
+                    <span class="truncate">Kontrak Kuliah</span>
+                </a>
+            </nav>
+
+            <div class="p-2 bg-primary-container/30 border-t border-primary-container/40">
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-error-container hover:bg-error/20 hover:text-on-error transition-colors text-sm font-semibold"
+                    href="login.html">
+                    <span class="material-symbols-outlined text-xl">logout</span>
+                    <span class="truncate">Keluar Sistem</span>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Sidebar Backdrop Overlay -->
+    <div id="sidebarBackdrop"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out">
+    </div>
+
+    <!-- Konten Utama Dosen (Full Width) -->
+    <div class="w-full flex flex-col min-h-screen">
+        <!-- Navbar Atas -->
+        <header
+            class="fixed top-0 left-0 right-0 w-full h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-sm z-30 flex items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-surface-container">
+            <div class="flex items-center gap-3">
+                <!-- Tombol Garis Tiga (Hamburger Menu) -->
+                <button id="sidebarOpenBtn" type="button" aria-label="Buka Menu Navigasi"
+                    class="w-10 h-10 rounded-xl flex items-center justify-center text-on-surface hover:bg-surface-container hover:text-secondary active:scale-95 transition-all">
+                    <span class="material-symbols-outlined text-2xl">menu</span>
+                </button>
+
+                <!-- Identitas Brand di Navbar -->
+                <div class="flex items-center gap-2.5 pl-2 border-l border-surface-container">
+                    <img alt="Logo UM Bogor Raya" class="h-8 w-auto object-contain"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8k8aD_E5mzd1nrcNFQDv8-YrZmOriobV_RSES9K9cuv08L0x58xDL5KMzvX-d3hmnjVpR0ZT4ERAk3qZmNyUktI4kJUbxONn5SuMiMOUSavrvWh7JEOjAIQLCelBwpySJ0W1qWQ2wswil8cqGRDjYYQ0brp0sCrIld3GcXJ3iC-iJaftz9IDo1keh95YiuwqvVtmzQ0G-fpGUjDibsjS-tfR9Tkiak9iy6Nh0rpdVo3FVg4q1CqvrLM0N3io7c9B3R9o" />
+                    <div class="flex flex-col">
+                        <span
+                            class="text-sm font-bold text-primary font-headline tracking-tight leading-none">SIPENA</span>
+                        <span
+                            class="text-[10px] text-on-surface-variant leading-none font-medium mt-0.5 hidden sm:inline-block">UM
+                            Bogor Raya</span>
+                    </div>
+                </div>
+
+                <div class="hidden md:flex items-center gap-2 ml-2">
+                    <span
+                        class="text-xs bg-surface-container text-on-surface-variant px-3 py-1 rounded-full font-medium">T.A.
+                        2024/2025</span>
+                    <span
+                        class="text-xs bg-surface-container-high text-secondary px-3 py-1 rounded-full font-semibold">Semester
+                        Ganjil</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <button
+                    class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors"
+                    type="button">
+                    <span class="material-symbols-outlined text-xl">notifications</span>
+                </button>
+                <button
+                    class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors"
+                    type="button">
+                    <span class="material-symbols-outlined text-xl">help_outline</span>
+                </button>
+                <div class="flex items-center gap-3 pl-2 border-l border-surface-container">
+                    <div class="flex flex-col text-right hidden sm:flex">
+                        <span class="text-sm font-semibold text-on-surface leading-tight">Dr. H. Ahmad Sudrajat,
+                            M.Kom.</span>
+                        <span class="text-xs text-on-surface-variant leading-tight">NIDN 0412088501</span>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-sm">
+                        <span class="material-symbols-outlined text-on-primary text-sm">person</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Konten Dashboard Dosen -->
+        <main class="w-full pt-20 px-4 sm:px-6 lg:px-8 pb-10 bg-surface flex-1">
+            <div class="flex flex-col gap-6 w-full">
+
+                <!-- Header Sambutan Dosen -->
+                <div
+                    class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface-container-lowest p-6 rounded-xl shadow-sm">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span
+                                class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-secondary text-xs font-semibold">
+                                <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                T.A. 2024/2025 • Ganjil
+                            </span>
+                            <span class="text-on-surface-variant text-xs">• Program Studi Ilmu Komputer</span>
+                        </div>
+                        <h1 class="text-2xl text-primary font-bold tracking-tight font-headline">Dashboard Dosen</h1>
+                        <p class="text-sm text-on-surface-variant">
+                            Selamat datang, Bapak/Ibu Dosen! Kelola RPS, Modul, dan Kontrak Kuliah sesuai dengan jadwal
+                            mengampu Anda.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 self-start md:self-auto">
+                        <button
+                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-sm font-medium transition-colors shadow-sm"
+                            type="button">
+                            <span class="material-symbols-outlined text-lg">cloud_sync</span>
+                            Sinkronisasi SIAKAD
+                        </button>
+                        <a href="upload.html?type=rps&role=dosen"
+                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-secondary hover:bg-primary-container text-on-secondary text-sm font-semibold transition-all shadow-sm">
+                            <span class="material-symbols-outlined text-lg">add_circle</span>
+                            Unggah Berkas Baru
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 3 Kartu Fokus Utama Dosen (RPS, Modul, Kontrak Kuliah) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <!-- Card 1: RPS -->
+                    <a href="upload.html?type=rps&role=dosen"
+                        class="group bg-surface-container-lowest hover:bg-surface-container-low transition-all rounded-xl p-6 shadow-sm hover:shadow-md flex flex-col justify-between border border-surface-container/60 hover:-translate-y-0.5 cursor-pointer">
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+                                    <span class="material-symbols-outlined text-2xl">description</span>
+                                </div>
+                                <div class="flex flex-col min-w-0">
+                                    <span
+                                        class="text-xs font-semibold text-secondary uppercase tracking-wider">Perangkat
+                                        Ajar</span>
+                                    <h2 class="text-base text-primary font-bold truncate font-headline">RPS</h2>
+                                    <span class="text-xs text-on-surface-variant">Rencana Pembelajaran Semester</span>
+                                </div>
+                            </div>
+                            <span
+                                class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant">
+                                0 Terunggah
+                            </span>
+                        </div>
+                        <div
+                            class="flex items-center justify-between bg-surface-container-low rounded-lg px-4 py-2.5 border border-surface-container">
+                            <span class="text-xs font-semibold text-secondary">Unggah / Kelola Berkas</span>
+                            <span
+                                class="material-symbols-outlined text-secondary text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </div>
+                    </a>
+
+                    <!-- Card 2: Modul -->
+                    <a href="upload.html?type=modul&role=dosen"
+                        class="group bg-surface-container-lowest hover:bg-surface-container-low transition-all rounded-xl p-6 shadow-sm hover:shadow-md flex flex-col justify-between border border-surface-container/60 hover:-translate-y-0.5 cursor-pointer">
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-primary-container text-primary-fixed flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+                                    <span class="material-symbols-outlined text-2xl">menu_book</span>
+                                </div>
+                                <div class="flex flex-col min-w-0">
+                                    <span class="text-xs font-semibold text-primary uppercase tracking-wider">Bahan
+                                        Diktat</span>
+                                    <h2 class="text-base text-primary font-bold truncate font-headline">Modul</h2>
+                                    <span class="text-xs text-on-surface-variant">Panduan Kuliah &amp; Praktikum</span>
+                                </div>
+                            </div>
+                            <span
+                                class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant">
+                                0 Modul
+                            </span>
+                        </div>
+                        <div
+                            class="flex items-center justify-between bg-surface-container-low rounded-lg px-4 py-2.5 border border-surface-container">
+                            <span class="text-xs font-semibold text-primary">Unggah / Kelola Berkas</span>
+                            <span
+                                class="material-symbols-outlined text-primary text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </div>
+                    </a>
+
+                    <!-- Card 3: Kontrak Kuliah -->
+                    <a href="upload.html?type=kontrak&role=dosen"
+                        class="group bg-surface-container-lowest hover:bg-surface-container-low transition-all rounded-xl p-6 shadow-sm hover:shadow-md flex flex-col justify-between border border-surface-container/60 hover:-translate-y-0.5 cursor-pointer">
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 rounded-xl bg-tertiary-container text-tertiary-fixed flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+                                    <span class="material-symbols-outlined text-2xl">assignment_turned_in</span>
+                                </div>
+                                <div class="flex flex-col min-w-0">
+                                    <span
+                                        class="text-xs font-semibold text-tertiary uppercase tracking-wider">Kesepakatan
+                                        Kelas</span>
+                                    <h2 class="text-base text-primary font-bold truncate font-headline">Kontrak Kuliah
+                                    </h2>
+                                    <span class="text-xs text-on-surface-variant">Aturan &amp; Komitmen Belajar</span>
+                                </div>
+                            </div>
+                            <span
+                                class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant">
+                                0 Berkas
+                            </span>
+                        </div>
+                        <div
+                            class="flex items-center justify-between bg-surface-container-low rounded-lg px-4 py-2.5 border border-surface-container">
+                            <span class="text-xs font-semibold text-tertiary">Unggah / Kelola Berkas</span>
+                            <span
+                                class="material-symbols-outlined text-tertiary text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Kelengkapan Dokumen Perkuliahan (Empty State Default) -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Dokumen Perkuliahan -->
+                    <div
+                        class="lg:col-span-8 bg-surface-container-lowest rounded-xl shadow-sm p-6 flex flex-col gap-5 border border-surface-container/60">
+                        <div
+                            class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-surface-container pb-4">
+                            <div>
+                                <h2 class="text-base text-primary font-bold font-headline">Kelengkapan Dokumen
+                                    Perkuliahan</h2>
+                                <p class="text-xs text-on-surface-variant">Status berkas RPS, Modul Ajar, dan Kontrak
+                                    Kuliah semester aktif.</p>
+                            </div>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-on-surface-variant text-xs font-semibold self-start sm:self-auto">
+                                <span class="w-2 h-2 rounded-full bg-slate-400"></span> 0 Dokumen Terunggah
+                            </span>
+                        </div>
+
+                        <!-- Empty State Default -->
+                        <div
+                            class="py-12 px-4 rounded-xl border-2 border-dashed border-surface-container bg-surface flex flex-col items-center justify-center text-center">
+                            <div
+                                class="w-16 h-16 rounded-2xl bg-surface-container flex items-center justify-center text-on-surface-variant mb-3">
+                                <span class="material-symbols-outlined text-3xl">folder_off</span>
+                            </div>
+                            <h3 class="text-sm font-bold text-primary mb-1">Belum Ada Dokumen Terunggah</h3>
+                            <p class="text-xs text-on-surface-variant max-w-md mb-5 leading-relaxed">
+                                Anda belum mengunggah berkas RPS, Modul Ajar, maupun Kontrak Kuliah untuk semester ini.
+                                Silakan mulai unggah berkas Anda.
+                            </p>
+                            <div class="flex items-center gap-2.5 flex-wrap justify-center">
+                                <a href="upload.html?type=rps&role=dosen"
+                                    class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary hover:bg-secondary-container text-on-secondary text-xs font-bold transition-all shadow-sm">
+                                    <span class="material-symbols-outlined text-base">upload</span>
+                                    <span>Unggah RPS</span>
+                                </a>
+                                <a href="upload.html?type=modul&role=dosen"
+                                    class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary text-xs font-bold transition-all border border-surface-container">
+                                    <span class="material-symbols-outlined text-base">upload</span>
+                                    <span>Unggah Modul</span>
+                                </a>
+                                <a href="upload.html?type=kontrak&role=dosen"
+                                    class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary text-xs font-bold transition-all border border-surface-container">
+                                    <span class="material-symbols-outlined text-base">upload</span>
+                                    <span>Unggah Kontrak Kuliah</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistik Kesiapan (Default 0%) -->
+                    <div
+                        class="lg:col-span-4 bg-surface-container-lowest rounded-xl shadow-sm p-6 flex flex-col justify-between border border-surface-container/60">
+                        <div>
+                            <div class="flex items-center justify-between mb-4 border-b border-surface-container pb-3">
+                                <div>
+                                    <h3 class="text-sm font-bold text-primary font-headline">Statistik Kesiapan Berkas
+                                    </h3>
+                                    <p class="text-[11px] text-on-surface-variant">Monitoring berkas aktif</p>
+                                </div>
+                                <span class="material-symbols-outlined text-secondary text-xl">analytics</span>
+                            </div>
+
+                            <div class="flex flex-col gap-4">
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1.5">
+                                        <span class="text-on-surface font-medium">Kelengkapan Dokumen RPS</span>
+                                        <span class="font-bold text-on-surface-variant">0%</span>
+                                    </div>
+                                    <div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+                                        <div class="h-full bg-secondary rounded-full" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1.5">
+                                        <span class="text-on-surface font-medium">Unggahan Modul Ajar</span>
+                                        <span class="font-bold text-on-surface-variant">0%</span>
+                                    </div>
+                                    <div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+                                        <div class="h-full bg-primary-container rounded-full" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1.5">
+                                        <span class="text-on-surface font-medium">Validasi Kontrak Kuliah</span>
+                                        <span class="font-bold text-on-surface-variant">0%</span>
+                                    </div>
+                                    <div class="w-full h-2 rounded-full bg-surface-container overflow-hidden">
+                                        <div class="h-full bg-tertiary-container rounded-full" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="mt-6 p-3.5 bg-surface-container-low rounded-xl flex items-center gap-3 border border-surface-container">
+                            <span class="material-symbols-outlined text-secondary text-xl shrink-0">help_center</span>
+                            <div class="text-on-surface-variant text-[11px] leading-snug">
+                                Format template resmi RPS &amp; Modul standar BKD? <a
+                                    class="text-secondary font-bold hover:underline"
+                                    href="upload.html?type=rps&role=dosen">Unduh Template</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Script Interaktivitas Sidebar Drawer -->
+    <script>
+        sessionStorage.setItem('sipena_role', 'dosen');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOpenBtn = document.getElementById('sidebarOpenBtn');
+        const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+        const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+        function openSidebar() {
+            if (!sidebar || !sidebarBackdrop) return;
+            sidebar.classList.remove('-translate-x-full');
+            sidebar.classList.add('translate-x-0');
+            sidebarBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+            sidebarBackdrop.classList.add('opacity-100', 'pointer-events-auto');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeSidebar() {
+            if (!sidebar || !sidebarBackdrop) return;
+            sidebar.classList.add('-translate-x-full');
+            sidebar.classList.remove('translate-x-0');
+            sidebarBackdrop.classList.add('opacity-0', 'pointer-events-none');
+            sidebarBackdrop.classList.remove('opacity-100', 'pointer-events-auto');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        if (sidebarOpenBtn) sidebarOpenBtn.addEventListener('click', openSidebar);
+        if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
+        if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeSidebar);
+
+        // Tutup saat tombol ESC ditekan
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && sidebar && !sidebar.classList.contains('-translate-x-full')) {
+                closeSidebar();
+            }
+        });
+    </script>
+</body>
+
+</html>

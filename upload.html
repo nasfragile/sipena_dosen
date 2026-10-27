@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Kelola &amp; Upload Dokumen - SIPENA Universitas Muhammadiyah Bogor Raya</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "#f8f9ff",
+                        "on-surface": "#0b1c30",
+                        "on-surface-variant": "#43474f",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container": "#e5eeff",
+                        "surface-container-high": "#dce9ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "primary": "#001f41",
+                        "primary-container": "#0f3460",
+                        "primary-fixed": "#d5e3ff",
+                        "primary-fixed-dim": "#a9c8fc",
+                        "on-primary": "#ffffff",
+                        "secondary": "#0051d5",
+                        "secondary-container": "#316bf3",
+                        "on-secondary-container": "#fefcff",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#002136",
+                        "tertiary-container": "#003757",
+                        "tertiary-fixed": "#cce5ff",
+                        "on-tertiary-container": "#42a3e8",
+                        "inverse-surface": "#213145",
+                        "inverse-on-surface": "#eaf1ff",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "success": "#0e7a3d",
+                        "success-container": "#d0f6db"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "headline": ["Plus Jakarta Sans", "sans-serif"]
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .dragover {
+            border-color: #0051d5 !important;
+            background-color: #e5eeff !important;
+            transform: scale(1.01);
+        }
+
+        /* Custom scrollbar for tabs */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="bg-surface font-sans text-on-surface">
+
+    <!-- Sidebar Drawer (Slide dari kiri) -->
+    <aside id="sidebar"
+        class="fixed left-0 top-0 h-full w-72 sm:w-80 bg-primary text-on-primary z-50 flex flex-col justify-between shadow-2xl -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="flex flex-col h-full">
+            <div class="h-16 px-4 flex items-center justify-between bg-primary-container/40 border-b border-primary-container/50">
+                <div class="flex items-center gap-3">
+                    <img alt="Logo UM Bogor Raya" class="h-8 w-auto object-contain"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8k8aD_E5mzd1nrcNFQDv8-YrZmOriobV_RSES9K9cuv08L0x58xDL5KMzvX-d3hmnjVpR0ZT4ERAk3qZmNyUktI4kJUbxONn5SuMiMOUSavrvWh7JEOjAIQLCelBwpySJ0W1qWQ2wswil8cqGRDjYYQ0brp0sCrIld3GcXJ3iC-iJaftz9IDo1keh95YiuwqvVtmzQ0G-fpGUjDibsjS-tfR9Tkiak9iy6Nh0rpdVo3FVg4q1CqvrLM0N3io7c9B3R9o" />
+                    <div class="flex flex-col min-w-0">
+                        <span class="text-base text-on-primary font-bold tracking-tight font-headline">SIPENA</span>
+                        <span class="text-[10px] text-primary-fixed-dim tracking-wider uppercase truncate">UM Bogor Raya</span>
+                    </div>
+                </div>
+                <button id="sidebarCloseBtn" type="button" aria-label="Tutup Menu"
+                    class="w-9 h-9 rounded-lg flex items-center justify-center text-primary-fixed-dim hover:text-on-primary hover:bg-primary-container/80 transition-colors">
+                    <span class="material-symbols-outlined text-xl">close</span>
+                </button>
+            </div>
+
+            <div class="px-4 pt-4 pb-1">
+                <span class="text-[11px] uppercase tracking-wider text-primary-fixed-dim/80 font-semibold">Navigasi Utama</span>
+            </div>
+            <nav class="flex-1 px-2 space-y-1 overflow-y-auto">
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary-fixed hover:bg-primary-container hover:text-on-primary transition-colors text-sm"
+                    href="dash-super.html" id="sidebarDashboardLink">
+                    <span class="material-symbols-outlined text-xl">dashboard</span>
+                    <span class="truncate" id="sidebarDashboardText">Dashboard Utama</span>
+                </a>
+
+                <div class="pt-3 pb-1 px-2">
+                    <span class="text-[11px] uppercase tracking-wider text-primary-fixed-dim/80 font-semibold" id="sidebarModulesTitle">9 Modul Akademik</span>
+                </div>
+                <button onclick="switchModule('rps')"
+                    class="sidebar-nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm transition-colors text-primary-fixed hover:bg-primary-container hover:text-on-primary"
+                    data-module="rps">
+                    <span class="material-symbols-outlined text-xl">description</span>
+                    <span class="truncate">1. RPS</span>
+                </button>
+                <button onclick="switchModule('modul')"
+                    class="sidebar-nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm transition-colors text-primary-fixed hover:bg-primary-container hover:text-on-primary"
+                    data-module="modul">
+                    <span class="material-symbols-outlined text-xl">menu_book</span>
+                    <span class="truncate">2. Modul Ajar</span>
+                </button>
+                <button onclick="switchModule('kontrak')"
+                    class="sidebar-nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm transition-colors text-primary-fixed hover:bg-primary-container hover:text-on-primary"
+                    data-module="kontrak">
+                    <span class="material-symbols-outlined text-xl">assignment_turned_in</span>
+                    <span class="truncate">3. Kontrak Kuliah</span>
+                </button>
+                <button onclick="switchModule('pkm')"
+                    class="sidebar-nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm transition-colors text-primary-fixed hover:bg-primary-container hover:text-on-primary"
+                    data-module="pkm">
+                    <span class="material-symbols-outlined text-xl">groups</span>
+                    <span class="truncate">4. Laporan PKM</span>
+                </button>
+                <button onclick="switchModule('penelitian')"
+                    class="sidebar-nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm transition-colors text-primary-fixed hover:bg-primary-container hover:text-on-primary"
+                    data-module="penelitian">
+                    <span class="material-symbols-outlined text-xl">biotech</span>
+                    <span class="truncate">5. Laporan Penelitian</span>
+                </button>
+                <button onclick="switchModule('jurnal')"
+                    class="sidebar-nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm transition-colors text-primary-fixed hover:bg-primary-container hover:text-on-primary"
+                    data-module="jurnal">
+                    <span class="material-symbols-outlined text-xl">library_books</span>
+                    <span class="truncate">6. Jurnal Ganjil-Genap</span>
+                </button>
+                <button onclick="switchModule('jadwal')"
+                    class="sidebar-nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm transition-colors text-primary-fixed hover:bg-primary-container hover:text-on-primary"
+                    data-module="jadwal">
+                    <span class="material-symbols-outlined text-xl">calendar_month</span>
+                    <span class="truncate">7. Jadwal Kuliah</span>
+                </button>
+                <button onclick="switchModule('civitas')"
+                    class="sidebar-nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm transition-colors text-primary-fixed hover:bg-primary-container hover:text-on-primary"
+                    data-module="civitas">
+                    <span class="material-symbols-outlined text-xl">badge</span>
+                    <span class="truncate">8. Data Mahasiswa &amp; Dosen</span>
+                </button>
+                <button onclick="switchModule('nilai')"
+                    class="sidebar-nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm transition-colors text-primary-fixed hover:bg-primary-container hover:text-on-primary"
+                    data-module="nilai">
+                    <span class="material-symbols-outlined text-xl">fact_check</span>
+                    <span class="truncate">9. Cek Nilai Mahasiswa</span>
+                </button>
+            </nav>
+
+            <div class="p-2 bg-primary-container/30 border-t border-primary-container/40">
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-error-container hover:bg-error/20 hover:text-on-error transition-colors text-sm font-semibold"
+                    href="login.html">
+                    <span class="material-symbols-outlined text-xl">logout</span>
+                    <span class="truncate">Keluar Sistem</span>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Sidebar Backdrop Overlay -->
+    <div id="sidebarBackdrop"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out">
+    </div>
+
+    <!-- Main Container Full Width -->
+    <div class="w-full flex flex-col min-h-screen">
+        <!-- Top Navbar -->
+        <header
+            class="fixed top-0 left-0 right-0 w-full h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-sm z-30 flex items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-surface-container">
+            <div class="flex items-center gap-3">
+                <!-- Tombol Garis Tiga (Hamburger Menu) -->
+                <button id="sidebarOpenBtn" type="button" aria-label="Buka Menu Navigasi"
+                    class="w-10 h-10 rounded-xl flex items-center justify-center text-on-surface hover:bg-surface-container hover:text-secondary active:scale-95 transition-all">
+                    <span class="material-symbols-outlined text-2xl">menu</span>
+                </button>
+
+                <!-- Identitas Brand di Navbar -->
+                <a href="dash-super.html" id="navbarBrandLink" class="flex items-center gap-2.5 pl-2 border-l border-surface-container hover:opacity-90 transition-opacity">
+                    <img alt="Logo UM Bogor Raya" class="h-8 w-auto object-contain"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8k8aD_E5mzd1nrcNFQDv8-YrZmOriobV_RSES9K9cuv08L0x58xDL5KMzvX-d3hmnjVpR0ZT4ERAk3qZmNyUktI4kJUbxONn5SuMiMOUSavrvWh7JEOjAIQLCelBwpySJ0W1qWQ2wswil8cqGRDjYYQ0brp0sCrIld3GcXJ3iC-iJaftz9IDo1keh95YiuwqvVtmzQ0G-fpGUjDibsjS-tfR9Tkiak9iy6Nh0rpdVo3FVg4q1CqvrLM0N3io7c9B3R9o" />
+                    <div class="flex flex-col">
+                        <span class="text-sm font-bold text-primary font-headline tracking-tight leading-none">SIPENA</span>
+                        <span class="text-[10px] text-on-surface-variant leading-none font-medium mt-0.5 hidden sm:inline-block">UM Bogor Raya</span>
+                    </div>
+                </a>
+
+                <div class="hidden lg:flex items-center gap-2 ml-3 pl-3 border-l border-surface-container text-xs text-on-surface-variant">
+                    <a href="dash-super.html" id="breadcrumbDashboardLink" class="hover:text-secondary transition-colors font-medium">Dashboard</a>
+                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    <span class="font-semibold text-primary" id="breadcrumbModuleName">RPS (Rencana Pembelajaran Semester)</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="dash-super.html" id="backToDashboardBtn"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-semibold transition-all">
+                    <span class="material-symbols-outlined text-sm">arrow_back</span>
+                    <span class="hidden sm:inline">Kembali ke Dashboard</span>
+                </a>
+                <div class="flex items-center gap-3 pl-2 border-l border-surface-container">
+                    <div class="flex flex-col text-right hidden sm:flex">
+                        <span class="text-xs font-semibold text-on-surface leading-tight" id="userNameLabel">Super Administrator</span>
+                        <span class="text-[10px] text-on-surface-variant leading-tight" id="userRoleLabel">Pengembang &amp; Kaprodi</span>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-sm">
+                        <span class="material-symbols-outlined text-sm">person</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Body -->
+        <main class="w-full pt-20 px-4 sm:px-6 lg:px-8 pb-12 bg-surface flex-1">
+            <div class="flex flex-col gap-6 w-full">
+
+                <!-- Module Navigation Pill Bar -->
+                <div id="moduleTabsWrapper" class="bg-surface-container-lowest p-2 rounded-2xl shadow-sm border border-surface-container overflow-x-auto no-scrollbar">
+                    <div class="flex items-center gap-1.5 min-w-max" id="moduleTabs">
+                        <button onclick="switchModule('rps')" data-tab="rps"
+                            class="module-tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                            <span class="material-symbols-outlined text-lg">description</span>
+                            <span>RPS</span>
+                        </button>
+                        <button onclick="switchModule('modul')" data-tab="modul"
+                            class="module-tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                            <span class="material-symbols-outlined text-lg">menu_book</span>
+                            <span>Modul</span>
+                        </button>
+                        <button onclick="switchModule('kontrak')" data-tab="kontrak"
+                            class="module-tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                            <span class="material-symbols-outlined text-lg">assignment_turned_in</span>
+                            <span>Kontrak Kuliah</span>
+                        </button>
+                        <button onclick="switchModule('pkm')" data-tab="pkm"
+                            class="module-tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                            <span class="material-symbols-outlined text-lg">groups</span>
+                            <span>Laporan PKM</span>
+                        </button>
+                        <button onclick="switchModule('penelitian')" data-tab="penelitian"
+                            class="module-tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                            <span class="material-symbols-outlined text-lg">biotech</span>
+                            <span>Laporan Penelitian</span>
+                        </button>
+                        <button onclick="switchModule('jurnal')" data-tab="jurnal"
+                            class="module-tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                            <span class="material-symbols-outlined text-lg">library_books</span>
+                            <span>Jurnal Ganjil-Genap</span>
+                        </button>
+                        <button onclick="switchModule('jadwal')" data-tab="jadwal"
+                            class="module-tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                            <span class="material-symbols-outlined text-lg">calendar_month</span>
+                            <span>Jadwal Kuliah</span>
+                        </button>
+                        <button onclick="switchModule('civitas')" data-tab="civitas"
+                            class="module-tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                            <span class="material-symbols-outlined text-lg">badge</span>
+                            <span>Data Civitas</span>
+                        </button>
+                        <button onclick="switchModule('nilai')" data-tab="nilai"
+                            class="module-tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                            <span class="material-symbols-outlined text-lg">fact_check</span>
+                            <span>Nilai Mahasiswa</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Active Module Banner & Stats -->
+                <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-surface-container flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                    <div class="flex items-start gap-4">
+                        <div id="moduleBannerIconBox" class="w-14 h-14 rounded-2xl bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm shrink-0">
+                            <span id="moduleBannerIcon" class="material-symbols-outlined text-3xl">description</span>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span id="moduleBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary-container text-on-secondary-container">
+                                    Modul 1 dari 9
+                                </span>
+                                <span class="text-xs text-on-surface-variant font-medium">T.A. 2024/2025 • Semester Ganjil</span>
+                            </div>
+                            <h1 id="moduleTitle" class="text-2xl sm:text-3xl font-bold text-primary font-headline tracking-tight">
+                                Upload &amp; Kelola RPS
+                            </h1>
+                            <p id="moduleDescription" class="text-xs sm:text-sm text-on-surface-variant max-w-3xl">
+                                Kelola Rencana Pembelajaran Semester (RPS) sesuai kurikulum OBE dan standar BKD Kemendikbudristek.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 shrink-0 flex-wrap">
+                        <div class="bg-surface-container-low px-4 py-2.5 rounded-xl border border-surface-container flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+                                <span class="material-symbols-outlined text-lg">folder</span>
+                            </div>
+                            <div>
+                                <span class="text-[11px] text-on-surface-variant block leading-tight">Total Terunggah</span>
+                                <span id="statTotalDoc" class="text-sm font-bold text-primary leading-tight">34 Dokumen</span>
+                            </div>
+                        </div>
+                        <button onclick="downloadTemplate()"
+                            class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-semibold transition-all border border-surface-container shadow-sm">
+                            <span class="material-symbols-outlined text-base text-secondary">download_for_offline</span>
+                            <span>Unduh Template Format</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2-Column Upload Form & Live Dropzone -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    
+                    <!-- Left: Drag & Drop Zone -->
+                    <div class="lg:col-span-5 flex flex-col">
+                        <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-surface-container flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-3">
+                                    <h3 class="text-sm font-bold text-primary font-headline">Berkas Dokumen</h3>
+                                    <span id="moduleAllowedFormats" class="text-[11px] text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-md font-medium">PDF, DOCX, XLSX (Maks. 25MB)</span>
+                                </div>
+                                <p class="text-xs text-on-surface-variant mb-4">
+                                    Pastikan nama berkas jelas dan sesuai pedoman format universitas.
+                                </p>
+
+                                <!-- Dropzone Box -->
+                                <div id="dropzone"
+                                    class="border-2 border-dashed border-secondary/40 hover:border-secondary bg-surface-container-lowest hover:bg-surface-container-low/50 transition-all rounded-xl p-8 flex flex-col items-center justify-center text-center cursor-pointer group">
+                                    <input type="file" id="fileInput" class="hidden" accept=".pdf,.doc,.docx,.xls,.xlsx" />
+                                    <div class="w-14 h-14 rounded-2xl bg-secondary-container/20 group-hover:bg-secondary-container group-hover:text-on-secondary-container text-secondary flex items-center justify-center mb-3 transition-all group-hover:scale-105">
+                                        <span class="material-symbols-outlined text-3xl">cloud_upload</span>
+                                    </div>
+                                    <p class="text-sm font-semibold text-primary mb-1">
+                                        Tarik &amp; Letakkan berkas ke sini
+                                    </p>
+                                    <p class="text-xs text-on-surface-variant mb-3">
+                                        atau <span class="text-secondary font-semibold group-hover:underline">Pilih dari Komputer</span>
+                                    </p>
+                                    <div class="flex items-center gap-1.5 text-[11px] text-on-surface-variant">
+                                        <span class="material-symbols-outlined text-sm text-secondary">verified</span>
+                                        <span>Pemeriksaan integritas berkas otomatis</span>
+                                    </div>
+                                </div>
+
+                                <!-- File Preview Box (Hidden by default) -->
+                                <div id="filePreviewBox" class="hidden mt-4 p-4 rounded-xl bg-surface-container-low border border-secondary/20">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-3 min-w-0">
+                                            <div class="w-10 h-10 rounded-lg bg-secondary text-on-secondary flex items-center justify-center shrink-0">
+                                                <span class="material-symbols-outlined text-xl">description</span>
+                                            </div>
+                                            <div class="min-w-0">
+                                                <span id="previewFileName" class="text-xs font-bold text-primary truncate block">nama-dokumen.pdf</span>
+                                                <span id="previewFileSize" class="text-[11px] text-on-surface-variant">2.4 MB</span>
+                                            </div>
+                                        </div>
+                                        <button onclick="clearSelectedFile()" class="p-1 rounded-lg hover:bg-surface-container text-error transition-colors" title="Batalkan Berkas">
+                                            <span class="material-symbols-outlined text-lg">close</span>
+                                        </button>
+                                    </div>
+                                    <div class="w-full bg-surface-container-high h-1.5 rounded-full mt-3 overflow-hidden">
+                                        <div id="uploadProgressBar" class="bg-secondary h-full rounded-full transition-all duration-300" style="width: 100%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 pt-4 border-t border-surface-container flex items-center justify-between text-xs text-on-surface-variant">
+                                <span class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-sm text-secondary">lock</span>
+                                    Tersimpan Aman di Cloud Kampus
+                                </span>
+                                <span>Status: Siap Diunggah</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Document Metadata Form -->
+                    <div class="lg:col-span-7 flex flex-col">
+                        <form id="uploadForm" onsubmit="handleUploadSubmit(event)" class="bg-surface-container-lowest p-6 sm:p-7 rounded-2xl shadow-sm border border-surface-container flex-1 flex flex-col justify-between">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between border-b border-surface-container pb-3">
+                                    <div>
+                                        <h3 class="text-sm font-bold text-primary font-headline">Informasi &amp; Atribut Dokumen</h3>
+                                        <p class="text-xs text-on-surface-variant">Isi kelengkapan data dokumen untuk verifikasi akademik</p>
+                                    </div>
+                                    <span class="text-[10px] font-bold text-secondary uppercase tracking-widest bg-secondary/10 px-2.5 py-1 rounded-full">Wajib Diisi</span>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <!-- Field 1: Title / Mata Kuliah -->
+                                    <div class="space-y-1.5 sm:col-span-2">
+                                        <label id="labelField1" class="text-xs font-semibold text-primary block">
+                                            Nama Dokumen / Mata Kuliah *
+                                        </label>
+                                        <div class="relative">
+                                            <input type="text" id="inputField1" required
+                                                placeholder="Contoh: Pemrograman Web Lanjut (IK-304)"
+                                                class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-surface border border-surface-container text-xs text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" />
+                                            <span class="material-symbols-outlined text-lg text-on-surface-variant absolute left-3 top-2.5">
+                                                title
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Field 2: Dosen / Pengunggah / Peneliti -->
+                                    <div class="space-y-1.5">
+                                        <label id="labelField2" class="text-xs font-semibold text-primary block">
+                                            Dosen Pengampu / Peneliti *
+                                        </label>
+                                        <div class="relative">
+                                            <input type="text" id="inputField2" required
+                                                value="Dr. H. Ahmad Sudrajat, M.Kom."
+                                                class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-surface border border-surface-container text-xs text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" />
+                                            <span class="material-symbols-outlined text-lg text-on-surface-variant absolute left-3 top-2.5">
+                                                person
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Field 3: Semester & Tahun Akademik -->
+                                    <div class="space-y-1.5">
+                                        <label class="text-xs font-semibold text-primary block">
+                                            Tahun Ajaran &amp; Semester *
+                                        </label>
+                                        <div class="relative">
+                                            <select id="inputSemester"
+                                                class="w-full pl-10 pr-8 py-2.5 rounded-xl bg-surface border border-surface-container text-xs text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all appearance-none cursor-pointer">
+                                                <option value="2024/2025 - Ganjil">2024/2025 - Ganjil (Aktif)</option>
+                                                <option value="2024/2025 - Genap">2024/2025 - Genap</option>
+                                                <option value="2023/2024 - Genap">2023/2024 - Genap</option>
+                                                <option value="2023/2024 - Ganjil">2023/2024 - Ganjil</option>
+                                            </select>
+                                            <span class="material-symbols-outlined text-lg text-on-surface-variant absolute left-3 top-2.5">
+                                                calendar_today
+                                            </span>
+                                            <span class="material-symbols-outlined text-sm text-on-surface-variant absolute right-3 top-3 pointer-events-none">
+                                                expand_more
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Field 4: Program Studi -->
+                                    <div class="space-y-1.5">
+                                        <label class="text-xs font-semibold text-primary block">
+                                            Program Studi *
+                                        </label>
+                                        <div class="relative">
+                                            <select id="inputProdi"
+                                                class="w-full pl-10 pr-8 py-2.5 rounded-xl bg-surface border border-surface-container text-xs text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all appearance-none cursor-pointer">
+                                                <option value="Ilmu Komputer">S1 - Ilmu Komputer</option>
+                                                <option value="Sistem Informasi">S1 - Sistem Informasi</option>
+                                                <option value="Teknologi Informasi">S1 - Teknologi Informasi</option>
+                                                <option value="Pendidikan Matematika">S1 - Pendidikan Matematika</option>
+                                            </select>
+                                            <span class="material-symbols-outlined text-lg text-on-surface-variant absolute left-3 top-2.5">
+                                                school
+                                            </span>
+                                            <span class="material-symbols-outlined text-sm text-on-surface-variant absolute right-3 top-3 pointer-events-none">
+                                                expand_more
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Field 5: Target Kategori / Status Awal -->
+                                    <div class="space-y-1.5">
+                                        <label id="labelFieldCategory" class="text-xs font-semibold text-primary block">
+                                            Kategori / Jenis Berkas *
+                                        </label>
+                                        <div class="relative">
+                                            <select id="inputCategory"
+                                                class="w-full pl-10 pr-8 py-2.5 rounded-xl bg-surface border border-surface-container text-xs text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all appearance-none cursor-pointer">
+                                                <option value="Utama">Berkas Utama / Final</option>
+                                                <option value="Revisi">Berkas Hasil Revisi</option>
+                                                <option value="Lampiran">Lampiran Tambahan</option>
+                                            </select>
+                                            <span class="material-symbols-outlined text-lg text-on-surface-variant absolute left-3 top-2.5">
+                                                category
+                                            </span>
+                                            <span class="material-symbols-outlined text-sm text-on-surface-variant absolute right-3 top-3 pointer-events-none">
+                                                expand_more
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Field 6: Catatan Tambahan -->
+                                    <div class="space-y-1.5 sm:col-span-2">
+                                        <label class="text-xs font-semibold text-primary block">
+                                            Catatan / Ringkasan Deskripsi (Opsional)
+                                        </label>
+                                        <textarea id="inputNotes" rows="2"
+                                            placeholder="Tuliskan catatan khusus untuk verifikator kaprodi atau mahasiswa..."
+                                            class="w-full p-3 rounded-xl bg-surface border border-surface-container text-xs text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 pt-4 border-t border-surface-container flex flex-col sm:flex-row items-center justify-between gap-3">
+                                <div class="flex items-center gap-2 text-xs text-on-surface-variant">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                    <span>Verifikasi otomatis oleh Kaprodi setelah unggah</span>
+                                </div>
+                                <button type="submit" id="btnSubmitUpload"
+                                    class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-secondary hover:bg-secondary-container text-on-secondary text-xs font-bold rounded-xl shadow-sm hover:shadow-md active:scale-95 transition-all">
+                                    <span class="material-symbols-outlined text-lg">upload</span>
+                                    <span id="btnUploadText">Unggah Dokumen Sekarang</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+                <!-- Table & Management Section -->
+                <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-surface-container space-y-5">
+                    
+                    <!-- Table Header & Filter Toolbar -->
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <h2 class="text-lg font-bold text-primary font-headline tracking-tight" id="tableSectionTitle">
+                                Arsip Dokumen RPS Terunggah
+                            </h2>
+                            <p class="text-xs text-on-surface-variant">Daftar berkas yang telah tersimpan, unduh, pratinjau, atau hapus berkas.</p>
+                        </div>
+
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <!-- Search -->
+                            <div class="relative min-w-[220px]">
+                                <input type="text" id="searchInput" oninput="filterDocuments()"
+                                    placeholder="Cari dokumen, kode, atau dosen..."
+                                    class="w-full pl-9 pr-3 py-2 rounded-xl bg-surface border border-surface-container text-xs text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" />
+                                <span class="material-symbols-outlined text-lg text-on-surface-variant absolute left-2.5 top-2">
+                                    search
+                                </span>
+                            </div>
+
+                            <!-- Filter Status -->
+                            <div class="relative">
+                                <select id="filterStatus" onchange="filterDocuments()"
+                                    class="pl-3 pr-8 py-2 rounded-xl bg-surface border border-surface-container text-xs text-on-surface focus:outline-none focus:border-secondary appearance-none cursor-pointer">
+                                    <option value="all">Semua Status</option>
+                                    <option value="Terverifikasi">Terverifikasi</option>
+                                    <option value="Menunggu Review">Menunggu Review</option>
+                                    <option value="Draft">Draft</option>
+                                </select>
+                                <span class="material-symbols-outlined text-sm text-on-surface-variant absolute right-2.5 top-2.5 pointer-events-none">
+                                    expand_more
+                                </span>
+                            </div>
+
+                            <button onclick="refreshData()" class="p-2 rounded-xl border border-surface-container hover:bg-surface text-on-surface-variant hover:text-secondary transition-colors" title="Muat Ulang Data">
+                                <span class="material-symbols-outlined text-lg">refresh</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Table Responsive -->
+                    <div class="overflow-x-auto rounded-xl border border-surface-container">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-surface-container-low/70 border-b border-surface-container text-[11px] font-bold text-on-surface uppercase tracking-wider">
+                                    <th class="py-3 px-4">Nama Dokumen &amp; Berkas</th>
+                                    <th class="py-3 px-4">Mata Kuliah / Pengunggah</th>
+                                    <th class="py-3 px-4">Semester</th>
+                                    <th class="py-3 px-4">Ukuran &amp; Format</th>
+                                    <th class="py-3 px-4">Status Verifikasi</th>
+                                    <th class="py-3 px-4 text-center">Aksi Dokumen</th>
+                                </tr>
+                            </thead>
+                            <tbody id="documentTableBody" class="divide-y divide-surface-container text-xs">
+                                <!-- Generated Dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Empty State (Hidden unless no match) -->
+                    <div id="emptyState" class="hidden py-12 flex flex-col items-center justify-center text-center">
+                        <div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant mb-3">
+                            <span class="material-symbols-outlined text-3xl">folder_off</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-primary mb-1" id="emptyStateTitle">Belum Ada Dokumen Terunggah</h4>
+                        <p class="text-xs text-on-surface-variant max-w-sm" id="emptyStateDesc">
+                            Belum ada berkas pada modul ini. Gunakan formulir di atas untuk mulai mengunggah dokumen baru.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Pratinjau Dokumen -->
+    <div id="previewModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-200">
+        <div class="bg-surface-container-lowest w-full max-w-2xl rounded-2xl shadow-2xl border border-surface-container overflow-hidden scale-95 transition-transform duration-200" id="previewModalBox">
+            <div class="p-5 border-b border-surface-container flex items-center justify-between bg-surface-container-low/50">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center">
+                        <span class="material-symbols-outlined text-xl">description</span>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-primary font-headline" id="modalDocTitle">Pratinjau Dokumen</h3>
+                        <p class="text-xs text-on-surface-variant" id="modalDocSubtitle">SIPENA Universitas Muhammadiyah Bogor Raya</p>
+                    </div>
+                </div>
+                <button onclick="closePreviewModal()" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors">
+                    <span class="material-symbols-outlined text-xl">close</span>
+                </button>
+            </div>
+            
+            <div class="p-6 space-y-4">
+                <div class="p-4 rounded-xl bg-surface-container-low border border-surface-container space-y-2">
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <span class="text-on-surface-variant block text-[11px]">Nama Berkas:</span>
+                            <span class="font-semibold text-primary" id="modalFileName">dokumen.pdf</span>
+                        </div>
+                        <div>
+                            <span class="text-on-surface-variant block text-[11px]">Pengunggah:</span>
+                            <span class="font-semibold text-primary" id="modalAuthor">Dr. Ahmad Sudrajat</span>
+                        </div>
+                        <div>
+                            <span class="text-on-surface-variant block text-[11px]">Waktu Unggah:</span>
+                            <span class="font-semibold text-primary" id="modalDate">24 Okt 2024, 09:30 WIB</span>
+                        </div>
+                        <div>
+                            <span class="text-on-surface-variant block text-[11px]">Status Dokumen:</span>
+                            <span class="font-semibold" id="modalStatusBadge">Terverifikasi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulated Document Viewer Sheet -->
+                <div class="h-64 rounded-xl border border-surface-container bg-surface flex flex-col items-center justify-center p-6 text-center space-y-3">
+                    <div class="w-16 h-16 rounded-2xl bg-surface-container-high flex items-center justify-center text-secondary">
+                        <span class="material-symbols-outlined text-3xl">picture_as_pdf</span>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-xs font-bold text-primary">Pratinjau Berkas Standar SIAKAD &amp; BKD</p>
+                        <p class="text-[11px] text-on-surface-variant max-w-sm">
+                            Dokumen terverifikasi resmi secara digital dengan tanda tangan elektronik Kaprodi Ilmu Komputer UM Bogor Raya.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border-t border-surface-container bg-surface-container-low/30 flex items-center justify-between">
+                <span class="text-xs text-on-surface-variant">Keamanan: TLS 1.3 Terenkripsi</span>
+                <div class="flex items-center gap-2">
+                    <button onclick="closePreviewModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-on-surface-variant hover:bg-surface-container transition-colors">
+                        Tutup
+                    </button>
+                    <button onclick="downloadFromModal()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:bg-secondary-container transition-all">
+                        <span class="material-symbols-outlined text-base">download</span>
+                        <span>Unduh Dokumen</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl bg-primary text-on-primary shadow-xl -translate-y-4 opacity-0 pointer-events-none transition-all duration-300">
+        <span class="material-symbols-outlined text-xl text-secondary-fixed" id="toastIcon">check_circle</span>
+        <span class="text-xs font-semibold" id="toastMessage">Dokumen berhasil diproses!</span>
+    </div>
+
+    <!-- Script Interaktivitas Halaman Upload & 9 Modul -->
+    <script>
+        // Data Store untuk 9 Modul Akademik (Default Bersih / Kosong)
+        const moduleDefinitions = {
+            rps: {
+                id: 'rps',
+                number: 1,
+                name: 'RPS (Rencana Pembelajaran Semester)',
+                shortName: 'RPS',
+                icon: 'description',
+                badgeColor: 'bg-secondary-container text-on-secondary-container',
+                description: 'Unggah dan kelola Rencana Pembelajaran Semester (RPS) mata kuliah aktif berbasis OBE (Outcome-Based Education) dan kurikulum nasional.',
+                allowedFormats: 'PDF, DOCX (Maks. 25MB)',
+                labelField1: 'Nama Mata Kuliah & Kode MK *',
+                placeholderField1: 'Contoh: Pemrograman Berorientasi Objek (IK-201)',
+                labelField2: 'Dosen Koordinator / Pengampu *',
+                totalDocs: '0 Dokumen',
+                templateName: 'Template_RPS_OBE_UM_Bogor_Raya.docx',
+                documents: []
+            },
+            modul: {
+                id: 'modul',
+                number: 2,
+                name: 'Modul & Bahan Diktat Ajar',
+                shortName: 'Modul',
+                icon: 'menu_book',
+                badgeColor: 'bg-primary-container text-primary-fixed',
+                description: 'Kelola diktat, panduan praktikum laboratorium, buku ajar digital, dan materi perkuliahan tatap muka maupun daring.',
+                allowedFormats: 'PDF, DOCX, ZIP (Maks. 50MB)',
+                labelField1: 'Judul Modul / Bahan Ajar *',
+                placeholderField1: 'Contoh: Modul Praktikum Algoritma & Struktur Data',
+                labelField2: 'Dosen Penyusun / Laboran *',
+                totalDocs: '0 Modul',
+                templateName: 'Panduan_Penyusunan_Modul_Praktikum.pdf',
+                documents: []
+            },
+            kontrak: {
+                id: 'kontrak',
+                number: 3,
+                name: 'Kontrak Perkuliahan',
+                shortName: 'Kontrak Kuliah',
+                icon: 'assignment_turned_in',
+                badgeColor: 'bg-tertiary-container text-tertiary-fixed',
+                description: 'Unggah berkas kesepakatan hak dan kewajiban antara dosen pengampu dan mahasiswa per kelas semester ini.',
+                allowedFormats: 'PDF (Maks. 15MB)',
+                labelField1: 'Mata Kuliah & Kelas *',
+                placeholderField1: 'Contoh: Kontrak Kuliah Sistem Operasi - Kelas A',
+                labelField2: 'Dosen Pengampu & Komti Kelas *',
+                totalDocs: '0 Berkas',
+                templateName: 'Format_Resmi_Kontrak_Perkuliahan.pdf',
+                documents: []
+            },
+            pkm: {
+                id: 'pkm',
+                number: 4,
+                name: 'Laporan Pengabdian Kepada Masyarakat (PKM)',
+                shortName: 'Laporan PKM',
+                icon: 'groups',
+                badgeColor: 'bg-on-tertiary-container text-white',
+                description: 'Kelola laporan pelaksanaan pengabdian masyarakat dosen, surat tugas, dokumentasi kegiatan, dan sertifikat mitra.',
+                allowedFormats: 'PDF, DOCX (Maks. 30MB)',
+                labelField1: 'Judul Kegiatan PKM *',
+                placeholderField1: 'Contoh: Pelatihan Literasi Digital & AI bagi UMKM Cibinong',
+                labelField2: 'Ketua Pengusul & Tim Dosen *',
+                totalDocs: '0 Kegiatan',
+                templateName: 'Sistematika_Laporan_PKM_LPPM.docx',
+                documents: []
+            },
+            penelitian: {
+                id: 'penelitian',
+                number: 5,
+                name: 'Laporan Penelitian Dosen',
+                shortName: 'Laporan Penelitian',
+                icon: 'biotech',
+                badgeColor: 'bg-error-container text-on-error-container',
+                description: 'Unggah proposal penelitian, laporan kemajuan 70%, laporan akhir, dan bukti luaran publikasi riset Tridharma.',
+                allowedFormats: 'PDF, DOCX (Maks. 30MB)',
+                labelField1: 'Judul Penelitian Riset *',
+                placeholderField1: 'Contoh: Implementasi Deep Learning untuk Deteksi Hama Padi Bogor',
+                labelField2: 'Ketua Peneliti & NIDN *',
+                totalDocs: '0 Penelitian',
+                templateName: 'Panduan_Penelitian_Hibah_Internal.docx',
+                documents: []
+            },
+            jurnal: {
+                id: 'jurnal',
+                number: 6,
+                name: 'Jurnal Ilmiah Ganjil-Genap',
+                shortName: 'Jurnal Ilmiah',
+                icon: 'library_books',
+                badgeColor: 'bg-secondary text-on-secondary',
+                description: 'Arsip publikasi artikel ilmiah terindeks SINTA, Scopus, dan jurnal nasional berkala dosen dan mahasiswa.',
+                allowedFormats: 'PDF (Maks. 20MB)',
+                labelField1: 'Judul Artikel Ilmiah & Nama Jurnal *',
+                placeholderField1: 'Contoh: Journal of Computer Science & AI (SINTA 2) - Vol. 8 No. 2',
+                labelField2: 'Penulis Utama & Co-Author *',
+                totalDocs: '0 Artikel',
+                templateName: 'Template_Naskah_Jurnal_Ilmiah.docx',
+                documents: []
+            },
+            jadwal: {
+                id: 'jadwal',
+                number: 7,
+                name: 'Jadwal Kuliah & Plotting Ruang',
+                shortName: 'Jadwal Kuliah',
+                icon: 'calendar_month',
+                badgeColor: 'bg-primary text-on-primary',
+                description: 'Kelola jadwal tatap muka, penggunaan laboratorium komputer, SK mengajar dosen, dan kalender akademik.',
+                allowedFormats: 'PDF, XLSX (Maks. 15MB)',
+                labelField1: 'Keterangan Berkas Jadwal *',
+                placeholderField1: 'Contoh: Jadwal Perkuliahan Semester Ganjil 2024/2025 Revisi 2',
+                labelField2: 'Bagian Administrasi Akademik / BAAK *',
+                totalDocs: '0 Berkas',
+                templateName: 'Form_Permohonan_Jadwal_Pengganti.xlsx',
+                documents: []
+            },
+            civitas: {
+                id: 'civitas',
+                number: 8,
+                name: 'Data Mahasiswa & Dosen',
+                shortName: 'Data Civitas',
+                icon: 'badge',
+                badgeColor: 'bg-inverse-surface text-inverse-on-surface',
+                description: 'Unggah rekapitulasi data mahasiswa bimbingan PA (Penasihat Akademik), biodata dosen, dan daftar peserta kuliah.',
+                allowedFormats: 'XLSX, CSV, PDF (Maks. 20MB)',
+                labelField1: 'Kategori Rekap Data *',
+                placeholderField1: 'Contoh: Rekap Biodata Mahasiswa Angkatan 2024 - Ilmu Komputer',
+                labelField2: 'Petugas Input / Admin Prodi *',
+                totalDocs: '0 Civitas',
+                templateName: 'Template_Impor_Data_Mahasiswa_SIAKAD.xlsx',
+                documents: []
+            },
+            nilai: {
+                id: 'nilai',
+                number: 9,
+                name: 'Penilaian Mahasiswa (KHS & Transkrip)',
+                shortName: 'Nilai Mahasiswa',
+                icon: 'fact_check',
+                badgeColor: 'bg-secondary-container text-on-secondary-container',
+                description: 'Unggah berkas rekapitulasi nilai tugas, kuis, UTS, UAS, dan berita acara pengesahan nilai akhir mata kuliah.',
+                allowedFormats: 'XLSX, PDF (Maks. 15MB)',
+                labelField1: 'Mata Kuliah & Rekap Nilai *',
+                placeholderField1: 'Contoh: Nilai Akhir Pemrograman Web Lanjut (IK-304 Kelas A)',
+                labelField2: 'Dosen Pengampu Utama *',
+                totalDocs: '0 Berkas',
+                templateName: 'Template_Format_Input_Nilai_DPNA.xlsx',
+                documents: []
+            }
+        };
+
+        const allowedDosenModules = ['rps', 'modul', 'kontrak'];
+        let isDosenRole = false;
+        let currentModuleKey = 'rps';
+        let currentDocuments = [];
+        let selectedFileObject = null;
+
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const roleParam = urlParams.get('role');
+            if (roleParam === 'dosen') {
+                sessionStorage.setItem('sipena_role', 'dosen');
+            } else if (roleParam === 'superadmin') {
+                sessionStorage.setItem('sipena_role', 'superadmin');
+            }
+
+            isDosenRole = urlParams.get('role') === 'dosen' || 
+                          sessionStorage.getItem('sipena_role') === 'dosen' || 
+                          document.referrer.includes('dash-adm.html');
+
+            if (isDosenRole) {
+                sessionStorage.setItem('sipena_role', 'dosen');
+
+                // Konfigurasi Navigasi Khusus Role Dosen
+                const brandLink = document.getElementById('navbarBrandLink');
+                if (brandLink) brandLink.href = 'dash-adm.html';
+
+                const breadcrumbDash = document.getElementById('breadcrumbDashboardLink');
+                if (breadcrumbDash) {
+                    breadcrumbDash.href = 'dash-adm.html';
+                    breadcrumbDash.textContent = 'Dashboard Dosen';
+                }
+
+                const backBtn = document.getElementById('backToDashboardBtn');
+                if (backBtn) backBtn.href = 'dash-adm.html';
+
+                const userName = document.getElementById('userNameLabel');
+                if (userName) userName.textContent = 'Dr. H. Ahmad Sudrajat, M.Kom.';
+
+                const userRole = document.getElementById('userRoleLabel');
+                if (userRole) userRole.textContent = 'Dosen Tetap • NIDN 0412088501';
+
+                const sideDashLink = document.getElementById('sidebarDashboardLink');
+                if (sideDashLink) sideDashLink.href = 'dash-adm.html';
+
+                const sideDashText = document.getElementById('sidebarDashboardText');
+                if (sideDashText) sideDashText.textContent = 'Dashboard Dosen';
+
+                const sideTitle = document.getElementById('sidebarModulesTitle');
+                if (sideTitle) sideTitle.textContent = 'Menu Dokumen Dosen';
+
+                // Terapkan tepat 3 Kolom untuk Tab Navigasi Dosen (RPS, Modul, Kontrak Kuliah)
+                const tabsWrapper = document.getElementById('moduleTabsWrapper');
+                if (tabsWrapper) {
+                    tabsWrapper.classList.remove('overflow-x-auto', 'no-scrollbar');
+                }
+
+                const tabsContainer = document.getElementById('moduleTabs');
+                if (tabsContainer) {
+                    tabsContainer.className = 'grid grid-cols-1 sm:grid-cols-3 gap-2.5 w-full';
+                }
+
+                // Hapus permanen modul non-dosen dari tab navigasi
+                document.querySelectorAll('.module-tab-btn').forEach(btn => {
+                    const tabKey = btn.getAttribute('data-tab');
+                    if (!allowedDosenModules.includes(tabKey)) {
+                        btn.remove();
+                    }
+                });
+
+                // Hapus permanen modul non-dosen dari sidebar drawer
+                document.querySelectorAll('.sidebar-nav-item').forEach(item => {
+                    const itemKey = item.getAttribute('data-module');
+                    if (!allowedDosenModules.includes(itemKey)) {
+                        item.remove();
+                    }
+                });
+            }
+
+            const typeParam = urlParams.get('type') || urlParams.get('modul');
+            if (typeParam && moduleDefinitions[typeParam.toLowerCase()]) {
+                currentModuleKey = typeParam.toLowerCase();
+            }
+            if (isDosenRole && !allowedDosenModules.includes(currentModuleKey)) {
+                currentModuleKey = 'rps';
+            }
+
+            switchModule(currentModuleKey, false);
+            setupDropzone();
+            setupSidebar();
+        });
+
+        // Beralih modul
+        function switchModule(key, updateUrl = true) {
+            if (isDosenRole && !allowedDosenModules.includes(key)) {
+                key = 'rps';
+            }
+            if (!moduleDefinitions[key]) key = 'rps';
+            currentModuleKey = key;
+            const mod = moduleDefinitions[key];
+
+            if (updateUrl) {
+                const newUrl = window.location.pathname + '?type=' + key + (isDosenRole ? '&role=dosen' : '');
+                window.history.pushState({ path: newUrl }, '', newUrl);
+            }
+
+            // Update Breadcrumb & Header
+            document.getElementById('breadcrumbModuleName').textContent = mod.name;
+            document.getElementById('moduleTitle').textContent = 'Upload & Kelola ' + mod.shortName;
+            document.getElementById('moduleDescription').textContent = mod.description;
+
+            if (isDosenRole) {
+                const dIndex = allowedDosenModules.indexOf(key) + 1;
+                document.getElementById('moduleBadge').textContent = 'Modul ' + (dIndex > 0 ? dIndex : 1) + ' dari 3';
+            } else {
+                document.getElementById('moduleBadge').textContent = 'Modul ' + mod.number + ' dari 9';
+            }
+
+            document.getElementById('statTotalDoc').textContent = mod.documents.length + ' Dokumen';
+            document.getElementById('moduleAllowedFormats').textContent = mod.allowedFormats;
+            document.getElementById('tableSectionTitle').textContent = 'Arsip Dokumen ' + mod.shortName + ' Terunggah';
+
+            // Update Icon
+            const iconBox = document.getElementById('moduleBannerIconBox');
+            iconBox.className = 'w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm shrink-0 ' + mod.badgeColor;
+            document.getElementById('moduleBannerIcon').textContent = mod.icon;
+
+            // Update Form Labels
+            document.getElementById('labelField1').textContent = mod.labelField1;
+            document.getElementById('inputField1').placeholder = mod.placeholderField1;
+            document.getElementById('labelField2').textContent = mod.labelField2;
+
+            // Highlight Active Tab (Preserving 3-column layout for Dosen)
+            document.querySelectorAll('.module-tab-btn').forEach(btn => {
+                const tabKey = btn.getAttribute('data-tab');
+                const isCurrent = (tabKey === key);
+                const activeClass = 'bg-secondary text-on-secondary shadow-sm font-bold';
+                const inactiveClass = 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container font-semibold';
+                const layoutClass = isDosenRole
+                    ? 'module-tab-btn flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs transition-all w-full text-center '
+                    : 'module-tab-btn flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs transition-all ';
+                btn.className = layoutClass + (isCurrent ? activeClass : inactiveClass);
+            });
+
+            // Highlight Sidebar item
+            document.querySelectorAll('.sidebar-nav-item').forEach(item => {
+                const itemKey = item.getAttribute('data-module');
+                if (itemKey === key) {
+                    item.className = 'sidebar-nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm font-bold bg-secondary-container text-on-secondary-container shadow-sm';
+                } else {
+                    item.className = 'sidebar-nav-item w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-sm transition-colors text-primary-fixed hover:bg-primary-container hover:text-on-primary';
+                }
+            });
+
+            // Load Documents
+            currentDocuments = [...mod.documents];
+            clearSelectedFile();
+            renderTable(currentDocuments);
+
+            // Tutup sidebar jika terbuka di mobile
+            closeSidebar();
+        }
+
+        // Render Tabel Dokumen
+        function renderTable(docs) {
+            const tbody = document.getElementById('documentTableBody');
+            const emptyState = document.getElementById('emptyState');
+            tbody.innerHTML = '';
+
+            if (!docs || docs.length === 0) {
+                emptyState.classList.remove('hidden');
+                const searchVal = document.getElementById('searchInput') ? document.getElementById('searchInput').value.trim() : '';
+                const filterVal = document.getElementById('filterStatus') ? document.getElementById('filterStatus').value : 'all';
+                const emptyTitle = document.getElementById('emptyStateTitle');
+                const emptyDesc = document.getElementById('emptyStateDesc');
+                if (emptyTitle && emptyDesc) {
+                    if (searchVal || filterVal !== 'all') {
+                        emptyTitle.textContent = 'Tidak ada dokumen yang cocok';
+                        emptyDesc.textContent = 'Belum ada dokumen yang sesuai dengan kata kunci atau filter pencarian Anda.';
+                    } else {
+                        emptyTitle.textContent = 'Belum Ada Dokumen Terunggah';
+                        emptyDesc.textContent = 'Belum ada berkas pada modul ini. Gunakan formulir di atas untuk mulai mengunggah dokumen baru.';
+                    }
+                }
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            docs.forEach((doc, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-surface-container-low/50 transition-colors';
+
+                let statusBadge = '';
+                if (doc.status === 'Terverifikasi') {
+                    statusBadge = '<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Terverifikasi</span>';
+                } else if (doc.status === 'Menunggu Review') {
+                    statusBadge = '<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800"><span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>Menunggu Review</span>';
+                } else {
+                    statusBadge = '<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700"><span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>Draft</span>';
+                }
+
+                let iconType = 'picture_as_pdf';
+                let iconColor = 'text-red-600';
+                if (doc.format === 'DOCX' || doc.format === 'DOC') {
+                    iconType = 'article';
+                    iconColor = 'text-blue-600';
+                } else if (doc.format === 'XLSX' || doc.format === 'XLS') {
+                    iconType = 'table_chart';
+                    iconColor = 'text-emerald-600';
+                }
+
+                tr.innerHTML = `
+                    <td class="py-3.5 px-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center ${iconColor} shrink-0">
+                                <span class="material-symbols-outlined text-xl">${iconType}</span>
+                            </div>
+                            <div class="min-w-0">
+                                <span class="font-bold text-primary block truncate max-w-xs sm:max-w-md">${escapeHtml(doc.title)}</span>
+                                <span class="text-[11px] text-on-surface-variant flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[13px]">attach_file</span>
+                                    <span class="truncate">${escapeHtml(doc.file)}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-3.5 px-4 text-on-surface-variant">
+                        <span class="font-medium text-on-surface block">${escapeHtml(doc.code)}</span>
+                        <span class="text-[11px]">${escapeHtml(doc.author)}</span>
+                    </td>
+                    <td class="py-3.5 px-4 text-on-surface-variant font-medium">
+                        ${escapeHtml(doc.semester)}
+                    </td>
+                    <td class="py-3.5 px-4">
+                        <span class="text-xs font-semibold text-primary block">${escapeHtml(doc.size)}</span>
+                        <span class="text-[10px] text-on-surface-variant font-medium uppercase">${escapeHtml(doc.format)}</span>
+                    </td>
+                    <td class="py-3.5 px-4">
+                        ${statusBadge}
+                    </td>
+                    <td class="py-3.5 px-4">
+                        <div class="flex items-center justify-center gap-1.5">
+                            <button onclick="previewDoc('${doc.id}')"
+                                class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors"
+                                title="Pratinjau Dokumen">
+                                <span class="material-symbols-outlined text-lg">visibility</span>
+                            </button>
+                            <button onclick="downloadDoc('${escapeHtml(doc.file)}')"
+                                class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors"
+                                title="Unduh Berkas">
+                                <span class="material-symbols-outlined text-lg">download</span>
+                            </button>
+                            <button onclick="deleteDoc('${doc.id}')"
+                                class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors"
+                                title="Hapus Dokumen">
+                                <span class="material-symbols-outlined text-lg">delete</span>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Setup Dropzone Drag & Drop
+        function setupDropzone() {
+            const dropzone = document.getElementById('dropzone');
+            const fileInput = document.getElementById('fileInput');
+
+            dropzone.addEventListener('click', () => fileInput.click());
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropzone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.add('dragover');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.remove('dragover');
+                }, false);
+            });
+
+            dropzone.addEventListener('drop', (e) => {
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFileSelected(files[0]);
+                }
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFileSelected(e.target.files[0]);
+                }
+            });
+        }
+
+        function handleFileSelected(file) {
+            selectedFileObject = file;
+            const previewBox = document.getElementById('filePreviewBox');
+            const nameEl = document.getElementById('previewFileName');
+            const sizeEl = document.getElementById('previewFileSize');
+
+            nameEl.textContent = file.name;
+            sizeEl.textContent = formatBytes(file.size);
+            previewBox.classList.remove('hidden');
+
+            // Set default title di form jika masih kosong
+            const inputField1 = document.getElementById('inputField1');
+            if (!inputField1.value) {
+                const cleanName = file.name.replace(/\.[^/.]+$/, '').replace(/_/g, ' ');
+                inputField1.value = cleanName;
+            }
+
+            showToast('Berkas terpilih: ' + file.name, 'attach_file');
+        }
+
+        function clearSelectedFile() {
+            selectedFileObject = null;
+            document.getElementById('fileInput').value = '';
+            document.getElementById('filePreviewBox').classList.add('hidden');
+        }
+
+        // Submit Form Upload
+        function handleUploadSubmit(e) {
+            e.preventDefault();
+
+            const title = document.getElementById('inputField1').value.trim();
+            const author = document.getElementById('inputField2').value.trim();
+            const semester = document.getElementById('inputSemester').value;
+            const prodi = document.getElementById('inputProdi').value;
+            const category = document.getElementById('inputCategory').value;
+
+            const submitBtn = document.getElementById('btnSubmitUpload');
+            const btnText = document.getElementById('btnUploadText');
+
+            // Simulasi proses upload dengan animasi progress bar
+            submitBtn.disabled = true;
+            btnText.textContent = 'Mengunggah ke Server...';
+
+            let progress = 0;
+            const bar = document.getElementById('uploadProgressBar');
+            const interval = setInterval(() => {
+                progress += 20;
+                if (bar) bar.style.width = progress + '%';
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        const fileName = selectedFileObject ? selectedFileObject.name : (title.replace(/\s+/g, '_') + '.pdf');
+                        const fileSize = selectedFileObject ? formatBytes(selectedFileObject.size) : '2.1 MB';
+                        const format = fileName.split('.').pop().toUpperCase();
+
+                        const newDoc = {
+                            id: 'doc-' + Date.now(),
+                            title: title,
+                            code: prodi,
+                            author: author,
+                            semester: semester,
+                            size: fileSize,
+                            format: format,
+                            file: fileName,
+                            status: 'Menunggu Review',
+                            date: 'Baru Saja'
+                        };
+
+                        // Tambahkan ke daftar dokumen aktif
+                        currentDocuments.unshift(newDoc);
+                        moduleDefinitions[currentModuleKey].documents.unshift(newDoc);
+
+                        renderTable(currentDocuments);
+                        document.getElementById('statTotalDoc').textContent = moduleDefinitions[currentModuleKey].documents.length + ' Dokumen';
+
+                        // Reset Form
+                        document.getElementById('inputField1').value = '';
+                        document.getElementById('inputNotes').value = '';
+                        clearSelectedFile();
+
+                        submitBtn.disabled = false;
+                        btnText.textContent = 'Unggah Dokumen Sekarang';
+
+                        showToast('Dokumen berhasil diunggah! Menunggu verifikasi Kaprodi.', 'check_circle');
+                    }, 400);
+                }
+            }, 80);
+        }
+
+        // Pencarian & Filter Dokumen
+        function filterDocuments() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('filterStatus').value;
+
+            const filtered = currentDocuments.filter(doc => {
+                const matchesQuery = doc.title.toLowerCase().includes(query) ||
+                                     doc.code.toLowerCase().includes(query) ||
+                                     doc.author.toLowerCase().includes(query) ||
+                                     doc.file.toLowerCase().includes(query);
+
+                const matchesStatus = statusFilter === 'all' || doc.status === statusFilter;
+
+                return matchesQuery && matchesStatus;
+            });
+
+            renderTable(filtered);
+        }
+
+        function refreshData() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('filterStatus').value = 'all';
+            currentDocuments = [...moduleDefinitions[currentModuleKey].documents];
+            renderTable(currentDocuments);
+            showToast('Data dokumen berhasil dimuat ulang.', 'refresh');
+        }
+
+        // Pratinjau Modal
+        function previewDoc(id) {
+            const doc = currentDocuments.find(d => d.id === id);
+            if (!doc) return;
+
+            document.getElementById('modalDocTitle').textContent = doc.title;
+            document.getElementById('modalFileName').textContent = doc.file;
+            document.getElementById('modalAuthor').textContent = doc.author;
+            document.getElementById('modalDate').textContent = doc.date;
+            document.getElementById('modalStatusBadge').textContent = doc.status;
+
+            const modal = document.getElementById('previewModal');
+            const box = document.getElementById('previewModalBox');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100');
+            box.classList.remove('scale-95');
+            box.classList.add('scale-100');
+        }
+
+        function closePreviewModal() {
+            const modal = document.getElementById('previewModal');
+            const box = document.getElementById('previewModalBox');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('opacity-100');
+            box.classList.add('scale-95');
+            box.classList.remove('scale-100');
+        }
+
+        function downloadFromModal() {
+            const fileName = document.getElementById('modalFileName').textContent;
+            downloadDoc(fileName);
+            closePreviewModal();
+        }
+
+        // Download Document
+        function downloadDoc(fileName) {
+            showToast('Mengunduh berkas: ' + fileName + '...', 'download');
+            // Simulasi download berkas
+            setTimeout(() => {
+                const element = document.createElement('a');
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent('SIPENA UM BOGOR RAYA\nDokumen: ' + fileName + '\nStatus: Terverifikasi BAAK & Kaprodi\nUniversitas Muhammadiyah Bogor Raya'));
+                element.setAttribute('download', fileName);
+                element.style.display = 'none';
+                document.body.appendChild(element);
+                element.click();
+                document.body.removeChild(element);
+            }, 600);
+        }
+
+        function downloadTemplate() {
+            const mod = moduleDefinitions[currentModuleKey];
+            downloadDoc(mod.templateName);
+        }
+
+        // Hapus Dokumen
+        function deleteDoc(id) {
+            const doc = currentDocuments.find(d => d.id === id);
+            if (!doc) return;
+
+            if (confirm('Apakah Anda yakin ingin menghapus berkas "' + doc.title + '"? Berkas yang dihapus tidak dapat dipulihkan.')) {
+                currentDocuments = currentDocuments.filter(d => d.id !== id);
+                moduleDefinitions[currentModuleKey].documents = moduleDefinitions[currentModuleKey].documents.filter(d => d.id !== id);
+                renderTable(currentDocuments);
+                document.getElementById('statTotalDoc').textContent = moduleDefinitions[currentModuleKey].documents.length + ' Dokumen';
+                showToast('Berkas berhasil dihapus dari sistem.', 'delete');
+            }
+        }
+
+        // Sidebar Interactivity
+        function setupSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOpenBtn = document.getElementById('sidebarOpenBtn');
+            const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+            const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+            if (sidebarOpenBtn) sidebarOpenBtn.addEventListener('click', openSidebar);
+            if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
+            if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeSidebar);
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeSidebar();
+                    closePreviewModal();
+                }
+            });
+        }
+
+        function openSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            if (!sidebar || !backdrop) return;
+            sidebar.classList.remove('-translate-x-full');
+            sidebar.classList.add('translate-x-0');
+            backdrop.classList.remove('opacity-0', 'pointer-events-none');
+            backdrop.classList.add('opacity-100', 'pointer-events-auto');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            if (!sidebar || !backdrop) return;
+            sidebar.classList.add('-translate-x-full');
+            sidebar.classList.remove('translate-x-0');
+            backdrop.classList.add('opacity-0', 'pointer-events-none');
+            backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // Toast Helper
+        function showToast(message, icon = 'check_circle') {
+            const toast = document.getElementById('toastNotification');
+            const msgEl = document.getElementById('toastMessage');
+            const iconEl = document.getElementById('toastIcon');
+
+            msgEl.textContent = message;
+            iconEl.textContent = icon;
+
+            toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
+                toast.classList.remove('opacity-100', 'translate-y-0');
+            }, 3000);
+        }
+
+        // Format File Size
+        function formatBytes(bytes, decimals = 1) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text || '';
+            return div.innerHTML;
+        }
+    </script>
+</body>
+
+</html>
